@@ -18,16 +18,20 @@ public RegisterPage() {
 		PageFactory.initElements(Base.driver,this);
 		
 	}
-public static void enterAllRegistrationDetails(DataTable dataTable) {
+public static void enterAllRegistrationDetails(DataTable dataTable,String detailsType) {
 	
-	Map<String, String> map = dataTable.asMap(String.class,String.class);
+	Map<String,String> map = dataTable.asMap(String.class,String.class);
 	Elements.TypeText(RegisterPage.firstName,map.get("FirstName"));
 	Elements.TypeText(RegisterPage.lastName,map.get("LastName"));
-	Elements.TypeText(RegisterPage.email,System.currentTimeMillis()+map.get("Email"));
 	Elements.TypeText(RegisterPage.telephone,map.get("Telephone"));
 	Elements.TypeText(RegisterPage.password,map.get("Password"));
 	Elements.TypeText(RegisterPage.confirmPassword,map.get("Password"));
 	
+	if(detailsType.equalsIgnoreCase("duplicate"))
+		Elements.TypeText(RegisterPage.email,map.get("Email"));
+	else
+		Elements.TypeText(RegisterPage.email,System.currentTimeMillis()+map.get("Email"));
+
 }
 
 	@FindBy(id="input-firstname")
@@ -54,6 +58,29 @@ public static void enterAllRegistrationDetails(DataTable dataTable) {
 	@FindBy(css="input[value='Continue']")
 	public static WebElement continueButton;
 	
+	@FindBy(linkText="Register")
+	public static WebElement registerBreadcrumb;
+	
+	@FindBy(css="#input-firstname+div")
+	public static WebElement firstNameWarning;
+	
+	@FindBy(css="#input-lastname+div")
+	public static WebElement lastNameWarning;
+	
+	@FindBy(css="#input-email+div")
+	public static WebElement emailWarning;
+	
+	@FindBy(css="#input-telephone+div")
+	public static WebElement telephoneWarning;
+	
+	@FindBy(css="#input-password+div")
+	public static WebElement passwordWarning;
+	
+	@FindBy(xpath="//div[@class='alert alert-danger alert-dismissible']")
+	public static WebElement mainWarning;
+	
+	@FindBy(name="newsletter")
+	public static WebElement newsletter;
 	
 
 }
